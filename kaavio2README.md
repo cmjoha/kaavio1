@@ -1,29 +1,31 @@
 ```mermaid
 sequenceDiagram
-    participant browser
+    participant spa
     participant server
+    participant browser
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
     activate server
-    server-->>browser: HTML document
+    server-->>spa: HTML document
     deactivate server
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
-    server-->>browser: the css file
+    server-->>spa: the CSS file
     deactivate server
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
     activate server
-    server-->>browser: the JavaScript file
+    server-->>spa: the JavaScript file
     deactivate server
     
-    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
+    Note right of spa: SPA application is executed
     
-    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
-    deactivate server    
-
-    Note right of browser: The browser executes the callback function that renders the notes 
+    server-->>spa: JSON data
+    deactivate server
+    
+    Note right of spa: App builds the DOM of the page including cq-data attributes
+    
 ```
