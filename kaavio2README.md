@@ -1,31 +1,44 @@
 ```mermaid
 sequenceDiagram
+    participant browser
     participant spa
     participant server
-    participant browser
     
-    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
+    browser->>browser: Enter https://studies.cs.helsinki.fi/exampleapp/spa
+    activate browser
+    
+    Note right of browser: The browser loads the Single Page App (SPA) framework
+    
+    browser->>spa: Request SPA initialization
+    activate spa
+    spa-->>browser: SPA initialized
+    
+    Note right of browser: SPA does navigation and page rendering
+    
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa
     activate server
-    server-->>spa: HTML document
+    server-->>browser: HTML document
     deactivate server
-    
-    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/main.css
     activate server
-    server-->>spa: the CSS file
+    server-->>browser: the css file
     deactivate server
-    
-    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/spa.js
     activate server
-    server-->>spa: the JavaScript file
+    server-->>browser: the JavaScript file
     deactivate server
+
+    Note right of browser: The browser starts executing the JavaScript code that fetches the JSON from the server
     
-    Note right of spa: SPA application is executed
-    
-    spa->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
+    browser->>server: GET https://studies.cs.helsinki.fi/exampleapp/data.json
     activate server
-    server-->>spa: JSON data
-    deactivate server
-    
-    Note right of spa: App builds the DOM of the page including cq-data attributes
+    server-->>browser: [{ "content": "HTML is easy", "date": "2023-1-1" }, ... ]
+    deactivate server    
+
+    Note right of browser: The browser executes the callback function that renders the notes
+
+    deactivate spa
     
 ```
